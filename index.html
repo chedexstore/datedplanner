@@ -1,237 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Printable Customized Planner Calendar</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Printable Customized Planner Calendar</title>
 
-    <!-- Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        .print-container {
-            width: 100%;
-            padding: 1cm;
-            margin: 0 auto;
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+<style>
+body{font-family:Arial,sans-serif}
 
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .print-container, .print-container * {
-                visibility: visible;
-            }
-            .print-container {
-                position: absolute;
-                inset: 0;
-                padding: 0;
-            }
-            @page {
-                margin: 1cm;
-                size: A4 portrait;
-            }
-        }
+/* PASSWORD SCREEN */
+#password-screen{
+  position:fixed; inset:0;
+  background:#f5f5f5;
+  display:flex; align-items:center; justify-content:center;
+  z-index:9999;
+}
+.password-box{
+  background:#fff; padding:30px; border-radius:10px;
+  width:100%; max-width:360px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  text-align:center;
+}
+#app{display:none}
 
-        .calendar {
-            font-family: Arial, sans-serif;
-            margin-bottom: 10px;
-            page-break-after: always;
-        }
+/* CALENDAR */
+.print-container{padding:1cm;background:#fff}
+.calendar{page-break-after:always}
+.calendar h1{
+  font-size:48px;font-weight:bold;
+  display:flex;justify-content:space-between;
+  margin:0;padding:10px;
+}
+table{width:100%;border-collapse:collapse;margin-top:20px;table-layout:fixed}
+th,td{border:1px solid #ddd;padding:10px;font-size:18px;vertical-align:top}
+thead th{text-align:center}
+td{height:calc(29.7cm/6);width:calc(21cm/7)}
 
-        .calendar h1 {
-            font-size: 48px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            margin: 0;
-        }
+.month-selection{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.month-selection .top-row{
+  grid-column:span 4;
+  display:flex;gap:10px;align-items:center;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            table-layout: fixed;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            vertical-align: top;
-            font-size: 18px;
-        }
-
-        thead th {
-            text-align: center;
-        }
-
-        td {
-            height: calc(29.7cm / 6);
-            width: calc(21cm / 7);
-        }
-
-        .note-box {
-            width: 100%;
-            height: 100%;
-            border: none;
-            resize: none;
-            padding: 10px;
-            font-size: 18px;
-            background: transparent;
-            font-family: inherit;
-        }
-
-        .month-selection {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .month-selection .top-row {
-            grid-column: span 4;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-    </style>
+@media print{
+  body *{visibility:hidden}
+  .print-container,.print-container *{visibility:visible}
+  .print-container{position:absolute;inset:0;padding:0}
+  @page{size:A4 portrait;margin:1cm}
+}
+</style>
 </head>
 
 <body>
 
+<!-- PASSWORD -->
+<div id="password-screen">
+  <div class="password-box">
+    <h3>Enter Password</h3>
+    <input type="password" id="passwordInput" class="form-control mb-3">
+    <button class="btn btn-primary w-100" onclick="checkPassword()">Access</button>
+    <p id="error" class="text-danger mt-2" style="display:none">Incorrect password</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
 <div class="container mt-4">
 
-    <!-- CONTROLS -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="month-selection">
-                <div class="top-row">
-                    <h4>Select Year:</h4>
-                    <select id="year-select" class="form-select w-auto"></select>
-                </div>
+<div class="month-selection mb-4">
+  <div class="top-row">
+    <h4>Year:</h4>
+    <strong>2026</strong>
+  </div>
 
-                <div class="top-row">
-                    <h4>Select Months:</h4>
-                    <label><input type="checkbox" id="check-all"> Check All</label>
-                </div>
+  <div class="top-row">
+    <h4>Select Months:</h4>
+    <label><input type="checkbox" id="check-all"> Check All</label>
+  </div>
 
-                <label><input type="checkbox" class="month" value="January"> Jan</label>
-                <label><input type="checkbox" class="month" value="February"> Feb</label>
-                <label><input type="checkbox" class="month" value="March"> Mar</label>
-                <label><input type="checkbox" class="month" value="April"> Apr</label>
-                <label><input type="checkbox" class="month" value="May"> May</label>
-                <label><input type="checkbox" class="month" value="June"> Jun</label>
-                <label><input type="checkbox" class="month" value="July"> Jul</label>
-                <label><input type="checkbox" class="month" value="August"> Aug</label>
-                <label><input type="checkbox" class="month" value="September"> Sep</label>
-                <label><input type="checkbox" class="month" value="October"> Oct</label>
-                <label><input type="checkbox" class="month" value="November"> Nov</label>
-                <label><input type="checkbox" class="month" value="December"> Dec</label>
-            </div>
+  <label><input type="checkbox" class="month" value="January"> Jan</label>
+  <label><input type="checkbox" class="month" value="February"> Feb</label>
+  <label><input type="checkbox" class="month" value="March"> Mar</label>
+  <label><input type="checkbox" class="month" value="April"> Apr</label>
+  <label><input type="checkbox" class="month" value="May"> May</label>
+  <label><input type="checkbox" class="month" value="June"> Jun</label>
+  <label><input type="checkbox" class="month" value="July"> Jul</label>
+  <label><input type="checkbox" class="month" value="August"> Aug</label>
+  <label><input type="checkbox" class="month" value="September"> Sep</label>
+  <label><input type="checkbox" class="month" value="October"> Oct</label>
+  <label><input type="checkbox" class="month" value="November"> Nov</label>
+  <label><input type="checkbox" class="month" value="December"> Dec</label>
+</div>
 
-            <div class="mt-3">
-                <label>Upload Header Font:</label>
-                <input type="file" id="font-header-upload" class="form-control">
-            </div>
+<div class="text-end mb-3">
+  <button class="btn btn-success" onclick="printPreview()">Print Preview</button>
+</div>
 
-            <div class="mt-3">
-                <label>Upload Content Font:</label>
-                <input type="file" id="font-content-upload" class="form-control">
-            </div>
-        </div>
+<div class="print-container"></div>
 
-        <div class="col-md-12 text-end mt-3">
-            <button class="btn btn-success" onclick="printPreview()">Print Preview</button>
-        </div>
-    </div>
-
-    <!-- CALENDAR OUTPUT -->
-    <div class="print-container"></div>
-
+</div>
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 
 <script>
-let year = new Date().getFullYear();
-const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-let fontStyleHeader = '';
-let fontStyleContent = '';
+const PASSWORD = "CheDex09PC!";
+const year = 2026;
 
-function populateYearSelect() {
-    const select = document.getElementById('year-select');
-    select.innerHTML = `
-        <option value="${year}">${year}</option>
-        <option value="${year + 1}">${year + 1}</option>
-    `;
-    select.onchange = e => {
-        year = +e.target.value;
-        updateCalendar();
-    };
+const months = ["January","February","March","April","May","June",
+"July","August","September","October","November","December"];
+
+function checkPassword(){
+  if(passwordInput.value === PASSWORD){
+    document.getElementById("password-screen").style.display="none";
+    document.getElementById("app").style.display="block";
+  } else {
+    document.getElementById("error").style.display="block";
+  }
 }
 
-function updateCalendar() {
-    const months = [...document.querySelectorAll('.month:checked')].map(m => m.value);
-    const container = document.querySelector('.print-container');
-    container.innerHTML = '';
+function updateCalendar(){
+  const selected = [...document.querySelectorAll(".month:checked")].map(m=>m.value);
+  const container = document.querySelector(".print-container");
+  container.innerHTML="";
 
-    months.forEach(month => {
-        container.innerHTML += `
-            <div class="calendar">
-                <h1><span>${month}</span><span>${year}</span></h1>
-                <table>
-                    <thead>
-                        <tr>${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<th>${d}</th>`).join('')}</tr>
-                    </thead>
-                    <tbody>${generateMonthDays(month)}</tbody>
-                </table>
-            </div>
-        `;
-    });
-
-    document.head.insertAdjacentHTML('beforeend', fontStyleHeader + fontStyleContent);
+  selected.forEach(m=>{
+    container.innerHTML += `
+    <div class="calendar">
+      <h1><span>${m}</span><span>${year}</span></h1>
+      <table>
+        <thead><tr>${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<th>${d}</th>`).join("")}</tr></thead>
+        <tbody>${generateDays(m)}</tbody>
+      </table>
+    </div>`;
+  });
 }
 
-function generateMonthDays(month) {
-    const index = monthNames.indexOf(month);
-    const firstDay = new Date(year, index, 1).getDay();
-    const totalDays = new Date(year, index + 1, 0).getDate();
-    let html = '';
-    let day = 1;
-
-    for (let i = 0; i < 6; i++) {
-        html += '<tr>';
-        for (let j = 0; j < 7; j++) {
-            if ((i === 0 && j < firstDay) || day > totalDays) {
-                html += '<td></td>';
-            } else {
-                html += `<td>${day++}</td>`;
-            }
-        }
-        html += '</tr>';
+function generateDays(month){
+  const i = months.indexOf(month);
+  const first = new Date(year,i,1).getDay();
+  const total = new Date(year,i+1,0).getDate();
+  let d=1,html="";
+  for(let r=0;r<6;r++){
+    html+="<tr>";
+    for(let c=0;c<7;c++){
+      html += (r===0&&c<first||d>total) ? "<td></td>" : `<td>${d++}</td>`;
     }
-    return html;
+    html+="</tr>";
+  }
+  return html;
 }
 
-function printPreview() {
-    const w = window.open('', '_blank');
-    w.document.write(document.documentElement.outerHTML);
-    w.document.close();
-    w.print();
-}
-
-document.getElementById('check-all').onchange = e => {
-    document.querySelectorAll('.month').forEach(m => m.checked = e.target.checked);
-    updateCalendar();
+document.getElementById("check-all").onchange=e=>{
+  document.querySelectorAll(".month").forEach(m=>m.checked=e.target.checked);
+  updateCalendar();
 };
+document.querySelectorAll(".month").forEach(m=>m.onchange=updateCalendar);
 
-document.querySelectorAll('.month').forEach(m => m.onchange = updateCalendar);
-
-populateYearSelect();
 updateCalendar();
 </script>
 
