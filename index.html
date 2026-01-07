@@ -3,167 +3,492 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 Minimalist Planner Calendar</title>
+<title>2026 Calendar Planner</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --line:#e5e5e5;
-  --text:#000000;
-  --bg:#ffffff;
-
-  /* FONT SCALES */
+  --primary:#000;
+  --secondary:#666;
+  --border:#e0e0e0;
+  --bg:#fff;
+  --hover:#f5f5f5;
+  
   --header-scale:1;
   --week-scale:1;
   --date-scale:1;
 }
 
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-  background:#f2f2f2;
-  font-family:'Inter', system-ui, sans-serif;
-  color:var(--text);
+  font-family:'Inter',sans-serif;
+  background:#fafafa;
+  color:var(--primary);
+  line-height:1.6;
 }
 
-.print-container{width:100%;}
+/* HEADER */
+.site-header{
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:20px 0;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
 
-/* ===== CALENDAR ===== */
+.site-header .container{
+  max-width:1400px;
+  margin:0 auto;
+  padding:0 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:18px;
+  font-weight:600;
+  letter-spacing:-0.5px;
+}
+
+.nav{
+  display:flex;
+  gap:24px;
+}
+
+.nav a{
+  color:var(--secondary);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:500;
+  transition:color 0.2s;
+}
+
+.nav a:hover{
+  color:var(--primary);
+}
+
+/* LAYOUT */
+.main-layout{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  max-width:1400px;
+  margin:0 auto;
+  gap:0;
+  min-height:calc(100vh - 60px);
+}
+
+/* SIDEBAR */
+.sidebar{
+  background:var(--bg);
+  border-right:1px solid var(--border);
+  padding:32px 24px;
+  overflow-y:auto;
+  position:sticky;
+  top:61px;
+  height:calc(100vh - 61px);
+}
+
+.sidebar h2{
+  font-size:11px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:16px;
+  color:var(--secondary);
+}
+
+.section{
+  margin-bottom:32px;
+  padding-bottom:32px;
+  border-bottom:1px solid var(--border);
+}
+
+.section:last-child{
+  border-bottom:none;
+}
+
+/* CONTROLS */
+.control-item{
+  margin-bottom:16px;
+}
+
+.control-item label{
+  display:block;
+  font-size:12px;
+  font-weight:500;
+  margin-bottom:6px;
+  color:var(--secondary);
+}
+
+input[type="range"]{
+  width:100%;
+  height:2px;
+  background:var(--border);
+  outline:none;
+  border-radius:2px;
+  cursor:pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  appearance:none;
+  width:14px;
+  height:14px;
+  background:var(--primary);
+  border-radius:50%;
+  cursor:pointer;
+}
+
+input[type="range"]::-moz-range-thumb{
+  width:14px;
+  height:14px;
+  background:var(--primary);
+  border-radius:50%;
+  cursor:pointer;
+  border:none;
+}
+
+input[type="file"]{
+  width:100%;
+  padding:8px;
+  border:1px solid var(--border);
+  border-radius:4px;
+  font-size:11px;
+  cursor:pointer;
+  transition:border 0.2s;
+  margin-bottom:8px;
+}
+
+input[type="file"]:hover{
+  border-color:var(--primary);
+}
+
+/* MONTH SELECT */
+.checkbox-label{
+  display:block;
+  margin-bottom:8px;
+  font-size:12px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.checkbox-label input{
+  margin-right:8px;
+}
+
+.month-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+
+.month-grid label{
+  padding:6px 8px;
+  border:1px solid var(--border);
+  border-radius:3px;
+  cursor:pointer;
+  font-size:11px;
+  text-align:center;
+  transition:all 0.2s;
+  user-select:none;
+}
+
+.month-grid label:hover{
+  background:var(--hover);
+}
+
+.month-grid input{
+  display:none;
+}
+
+.month-grid input:checked + label{
+  background:var(--primary);
+  color:white;
+  border-color:var(--primary);
+}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:10px;
+  background:var(--primary);
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  transition:opacity 0.2s;
+}
+
+.btn:hover{
+  opacity:0.8;
+}
+
+/* CONTENT AREA */
+.content{
+  padding:32px;
+  overflow-y:auto;
+}
+
+.content h1{
+  font-size:32px;
+  font-weight:300;
+  letter-spacing:-1px;
+  margin-bottom:8px;
+}
+
+.content p{
+  color:var(--secondary);
+  font-size:14px;
+  margin-bottom:32px;
+}
+
+/* CALENDAR */
 .calendar{
+  background:white;
+  border:1px solid var(--border);
+  margin-bottom:24px;
   page-break-after:always;
   height:100vh;
   display:flex;
   flex-direction:column;
-  background:var(--bg);
 }
 
-/* ===== HEADER ===== */
-.calendar h1{
+.calendar h3{
   display:flex;
   justify-content:space-between;
-  font-size:calc(36px * var(--header-scale));
-  font-weight:400;
-  margin:16px 20px 10px;
-  color:#000;
+  padding:24px;
+  font-size:calc(28px * var(--header-scale));
+  font-weight:300;
+  letter-spacing:-1px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
 }
 
-/* ===== TABLE ===== */
 .calendar table{
   width:100%;
-  flex:1;
   border-collapse:collapse;
-  table-layout:fixed;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+.calendar thead{
+  flex-shrink:0;
+}
+
+.calendar tbody{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+.calendar tbody > tr{
+  flex:1;
+  display:flex;
+}
+
+.calendar tbody > tr:last-child{
+  flex:0.5;
 }
 
 .calendar th{
-  font-size:calc(13px * var(--week-scale));
-  font-weight:500;
-  color:#000;
-  border-bottom:1px solid var(--line);
-  padding:8px 0;
+  padding:12px 8px;
+  font-size:calc(10px * var(--week-scale));
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--secondary);
+  border-bottom:1px solid var(--border);
   text-align:center;
+  width:14.28%;
+}
+
+.calendar thead tr{
+  display:flex;
+  width:100%;
 }
 
 .calendar td{
-  border:1px solid var(--line);
-  padding:6px;
+  padding:12px 8px;
+  border:1px solid var(--border);
+  font-size:calc(13px * var(--date-scale));
   vertical-align:top;
-  font-size:calc(14px * var(--date-scale));
-  color:#000;
+  color:var(--primary);
+  flex:1;
+  display:flex;
+  align-items:flex-start;
 }
 
-/* ===== NOTES ===== */
+.calendar td:hover:not([colspan]){
+  background:var(--hover);
+}
+
+.calendar tbody > tr:last-child td{
+  display:block;
+}
+
 .note-box{
   width:100%;
   height:100%;
   border:none;
+  padding:12px;
+  font-family:inherit;
+  font-size:calc(12px * var(--date-scale));
+  color:var(--secondary);
   resize:none;
-  background:transparent;
-  font-size:calc(14px * var(--date-scale));
-  color:#000;
 }
 
-/* ===== PRINT ===== */
+.note-box:focus{
+  outline:none;
+  background:var(--hover);
+}
+
+/* PRINT */
 @media print{
-  body *{visibility:hidden;}
-  .print-container,.print-container *{visibility:visible;}
-  .print-container{position:absolute;top:0;left:0;}
+  body{background:white;}
+  .site-header,.sidebar{display:none;}
+  .main-layout{display:block;}
+  .content{padding:0;}
+  .content h1,.content p{display:none;}
+  .calendar{border:none;margin:0;page-break-after:always;}
   @page{margin:1cm;}
+}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .main-layout{
+    grid-template-columns:1fr;
+  }
+  
+  .sidebar{
+    position:relative;
+    top:0;
+    height:auto;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+}
+
+@media(max-width:768px){
+  .nav{display:none;}
+  .month-grid{grid-template-columns:1fr 1fr 1fr;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container mt-4">
-
-<h4 class="fw-light mb-3" style="color:#000;">2026 Minimalist Planner Calendar</h4>
-
-<!-- FONT SIZE CONTROLS -->
-<div class="mb-3">
-  <label class="small">Header (Month / Year)</label>
-  <input type="range" min="0.7" max="1.6" step="0.05" value="1"
-    class="form-range"
-    oninput="document.documentElement.style.setProperty('--header-scale', this.value)">
-</div>
-
-<div class="mb-3">
-  <label class="small">Weekday Names</label>
-  <input type="range" min="0.7" max="1.6" step="0.05" value="1"
-    class="form-range"
-    oninput="document.documentElement.style.setProperty('--week-scale', this.value)">
-</div>
-
-<div class="mb-3">
-  <label class="small">Date / Day Numbers</label>
-  <input type="range" min="0.7" max="1.6" step="0.05" value="1"
-    class="form-range"
-    oninput="document.documentElement.style.setProperty('--date-scale', this.value)">
-</div>
-
-<!-- FONT UPLOAD -->
-<div class="row g-2 mb-3">
-  <div class="col-md-4">
-    <label class="form-label small">Header Font</label>
-    <input type="file" id="fontHeader" class="form-control" accept=".ttf,.otf,.woff,.woff2">
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container">
+    <div class="logo">Calendar 2026</div>
+    <nav class="nav">
+      <a href="#" onclick="window.scrollTo(0,0);return false;">Top</a>
+      <a href="#" onclick="securePrint();return false;">Print</a>
+    </nav>
   </div>
-  <div class="col-md-4">
-    <label class="form-label small">Weekday Font</label>
-    <input type="file" id="fontWeek" class="form-control" accept=".ttf,.otf,.woff,.woff2">
-  </div>
-  <div class="col-md-4">
-    <label class="form-label small">Date Number Font</label>
-    <input type="file" id="fontDate" class="form-control" accept=".ttf,.otf,.woff,.woff2">
-  </div>
-</div>
+</header>
 
-<!-- MONTH SELECT -->
-<label class="small">
-  <input type="checkbox" id="check-all"> Select all months
-</label>
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+  
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    
+    <!-- SIZE -->
+    <div class="section">
+      <h2>Font Size</h2>
+      <div class="control-item">
+        <label>Header</label>
+        <input type="range" min="0.7" max="1.6" step="0.05" value="1"
+          oninput="document.documentElement.style.setProperty('--header-scale', this.value)">
+      </div>
+      <div class="control-item">
+        <label>Weekdays</label>
+        <input type="range" min="0.7" max="1.6" step="0.05" value="1"
+          oninput="document.documentElement.style.setProperty('--week-scale', this.value)">
+      </div>
+      <div class="control-item">
+        <label>Dates</label>
+        <input type="range" min="0.7" max="1.6" step="0.05" value="1"
+          oninput="document.documentElement.style.setProperty('--date-scale', this.value)">
+      </div>
+    </div>
 
-<div class="mt-2 small">
-  <label><input type="checkbox" class="month" value="January" checked> Jan</label>
-  <label><input type="checkbox" class="month" value="February"> Feb</label>
-  <label><input type="checkbox" class="month" value="March"> Mar</label>
-  <label><input type="checkbox" class="month" value="April"> Apr</label>
-  <label><input type="checkbox" class="month" value="May"> May</label>
-  <label><input type="checkbox" class="month" value="June"> Jun</label>
-  <label><input type="checkbox" class="month" value="July"> Jul</label>
-  <label><input type="checkbox" class="month" value="August"> Aug</label>
-  <label><input type="checkbox" class="month" value="September"> Sep</label>
-  <label><input type="checkbox" class="month" value="October"> Oct</label>
-  <label><input type="checkbox" class="month" value="November"> Nov</label>
-  <label><input type="checkbox" class="month" value="December"> Dec</label>
-</div>
+    <!-- FONTS -->
+    <div class="section">
+      <h2>Custom Fonts</h2>
+      <label class="control-item" style="font-size:11px;color:var(--secondary);">Header</label>
+      <input type="file" id="fontHeader" accept=".ttf,.otf,.woff,.woff2">
+      
+      <label class="control-item" style="font-size:11px;color:var(--secondary);">Weekdays</label>
+      <input type="file" id="fontWeek" accept=".ttf,.otf,.woff,.woff2">
+      
+      <label class="control-item" style="font-size:11px;color:var(--secondary);">Dates</label>
+      <input type="file" id="fontDate" accept=".ttf,.otf,.woff,.woff2">
+    </div>
 
-<!-- ACTION -->
-<div class="mt-3">
-  <button class="btn btn-dark btn-sm" onclick="securePrint()">Print / Save PDF</button>
-</div>
+    <!-- MONTHS -->
+    <div class="section">
+      <h2>Select Months</h2>
+      <label class="checkbox-label">
+        <input type="checkbox" id="check-all"> Select All
+      </label>
+      <div class="month-grid">
+        <input type="checkbox" class="month" value="January" id="jan" checked>
+        <label for="jan">Jan</label>
+        
+        <input type="checkbox" class="month" value="February" id="feb">
+        <label for="feb">Feb</label>
+        
+        <input type="checkbox" class="month" value="March" id="mar">
+        <label for="mar">Mar</label>
+        
+        <input type="checkbox" class="month" value="April" id="apr">
+        <label for="apr">Apr</label>
+        
+        <input type="checkbox" class="month" value="May" id="may">
+        <label for="may">May</label>
+        
+        <input type="checkbox" class="month" value="June" id="jun">
+        <label for="jun">Jun</label>
+        
+        <input type="checkbox" class="month" value="July" id="jul">
+        <label for="jul">Jul</label>
+        
+        <input type="checkbox" class="month" value="August" id="aug">
+        <label for="aug">Aug</label>
+        
+        <input type="checkbox" class="month" value="September" id="sep">
+        <label for="sep">Sep</label>
+        
+        <input type="checkbox" class="month" value="October" id="oct">
+        <label for="oct">Oct</label>
+        
+        <input type="checkbox" class="month" value="November" id="nov">
+        <label for="nov">Nov</label>
+        
+        <input type="checkbox" class="month" value="December" id="dec">
+        <label for="dec">Dec</label>
+      </div>
+    </div>
 
-<!-- LIVE PREVIEW -->
-<div class="print-container mt-4"></div>
+    <!-- ACTION -->
+    <button class="btn" onclick="securePrint()">Print / Save PDF</button>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <h1>Your Minimalist Planner</h1>
+    <p>Customize and print your 2026 calendar</p>
+    
+    <div id="preview"></div>
+  </main>
 
 </div>
 
@@ -209,7 +534,7 @@ function securePrint(){
 
 /* CALENDAR */
 function updateCalendar(){
-  const container=document.querySelector(".print-container");
+  const container=document.querySelector("#preview");
   container.innerHTML="";
 
   let selected=[...document.querySelectorAll(".month:checked")];
@@ -221,9 +546,9 @@ function updateCalendar(){
   selected.forEach(m=>{
     container.innerHTML+=`
       <div class="calendar">
-        <h1 style="font-family:${headerFont||'Inter'}">
+        <h3 style="font-family:${headerFont||'Inter'}">
           <span>${m.value}</span><span>${YEAR}</span>
-        </h1>
+        </h3>
         <table>
           <thead style="font-family:${weekFont||'Inter'}">
             <tr>
@@ -256,7 +581,7 @@ function generateDays(month){
   html+=`
     <tr>
       <td colspan="7">
-        <textarea class="note-box" placeholder="Notes"></textarea>
+        <textarea class="note-box" placeholder="Notes..."></textarea>
       </td>
     </tr>`;
   return html;
