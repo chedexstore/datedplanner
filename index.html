@@ -3,92 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Printable Customized Monthly Planner Calendar 2026</title>
+<title>2026 Minimalist Planner Calendar</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-/* ===== BASE ===== */
-body {
-  background:#f5f5f5;
-  font-family: Arial, sans-serif;
+:root{
+  --line:#e5e5e5;
+  --text:#000000;
+  --bg:#ffffff;
+
+  /* FONT SCALES */
+  --header-scale:1;
+  --week-scale:1;
+  --date-scale:1;
 }
 
-/* ===== PRINT CONTAINER ===== */
-.print-container {
-  width: 100%;
+body{
+  background:#f2f2f2;
+  font-family:'Inter', system-ui, sans-serif;
+  color:var(--text);
 }
 
-/* ===== CALENDAR PAGE ===== */
-.calendar {
-  page-break-after: always;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+.print-container{width:100%;}
+
+/* ===== CALENDAR ===== */
+.calendar{
+  page-break-after:always;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:var(--bg);
 }
 
 /* ===== HEADER ===== */
-.calendar h1 {
-  font-size: 42px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 10px 5px;
-  margin: 0;
+.calendar h1{
+  display:flex;
+  justify-content:space-between;
+  font-size:calc(36px * var(--header-scale));
+  font-weight:400;
+  margin:16px 20px 10px;
+  color:#000;
 }
 
 /* ===== TABLE ===== */
-.calendar table {
-  width: 100%;
-  flex: 1;
-  border-collapse: collapse;
-  table-layout: fixed;
+.calendar table{
+  width:100%;
+  flex:1;
+  border-collapse:collapse;
+  table-layout:fixed;
 }
 
-.calendar thead th {
-  text-align: center;
-  font-size: 16px;
-  border: 1px solid #ccc;
+.calendar th{
+  font-size:calc(13px * var(--week-scale));
+  font-weight:500;
+  color:#000;
+  border-bottom:1px solid var(--line);
+  padding:8px 0;
+  text-align:center;
 }
 
-.calendar td {
-  border: 1px solid #ccc;
-  padding: 6px;
-  vertical-align: top;
-  font-size: 16px;
+.calendar td{
+  border:1px solid var(--line);
+  padding:6px;
+  vertical-align:top;
+  font-size:calc(14px * var(--date-scale));
+  color:#000;
 }
 
 /* ===== NOTES ===== */
-.note-box {
-  width: 100%;
-  height: 100%;
-  border: none;
-  resize: none;
-  font-size: 16px;
-  background: transparent;
+.note-box{
+  width:100%;
+  height:100%;
+  border:none;
+  resize:none;
+  background:transparent;
+  font-size:calc(14px * var(--date-scale));
+  color:#000;
 }
 
-/* ===== PRINT RULES ===== */
-@media print {
-  body * {
-    visibility: hidden;
-  }
-
-  .print-container,
-  .print-container * {
-    visibility: visible;
-  }
-
-  .print-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  @page {
-    size: auto;
-    margin: 1cm;
-  }
+/* ===== PRINT ===== */
+@media print{
+  body *{visibility:hidden;}
+  .print-container,.print-container *{visibility:visible;}
+  .print-container{position:absolute;top:0;left:0;}
+  @page{margin:1cm;}
 }
 </style>
 </head>
@@ -97,121 +97,179 @@ body {
 
 <div class="container mt-4">
 
-  <!-- MONTH SELECTION -->
-  <div class="mb-4">
-    <h4 class="fw-bold">2026 Monthly Dated Planner Calendar</h4>
+<h4 class="fw-light mb-3" style="color:#000;">2026 Minimalist Planner Calendar</h4>
 
-    <label>
-      <input type="checkbox" id="check-all"> Check All Months
-    </label>
+<!-- FONT SIZE CONTROLS -->
+<div class="mb-3">
+  <label class="small">Header (Month / Year)</label>
+  <input type="range" min="0.7" max="1.6" step="0.05" value="1"
+    class="form-range"
+    oninput="document.documentElement.style.setProperty('--header-scale', this.value)">
+</div>
 
-    <div class="mt-2">
-      <label><input type="checkbox" class="month" value="January"> Jan</label>
-      <label><input type="checkbox" class="month" value="February"> Feb</label>
-      <label><input type="checkbox" class="month" value="March"> Mar</label>
-      <label><input type="checkbox" class="month" value="April"> Apr</label>
-      <label><input type="checkbox" class="month" value="May"> May</label>
-      <label><input type="checkbox" class="month" value="June"> Jun</label>
-      <label><input type="checkbox" class="month" value="July"> Jul</label>
-      <label><input type="checkbox" class="month" value="August"> Aug</label>
-      <label><input type="checkbox" class="month" value="September"> Sep</label>
-      <label><input type="checkbox" class="month" value="October"> Oct</label>
-      <label><input type="checkbox" class="month" value="November"> Nov</label>
-      <label><input type="checkbox" class="month" value="December"> Dec</label>
-    </div>
+<div class="mb-3">
+  <label class="small">Weekday Names</label>
+  <input type="range" min="0.7" max="1.6" step="0.05" value="1"
+    class="form-range"
+    oninput="document.documentElement.style.setProperty('--week-scale', this.value)">
+</div>
 
-    <!-- PRINT BUTTON (PASSWORD PROTECTED) -->
-    <button class="btn btn-success mt-3" onclick="securePrint()">Print Preview</button>
+<div class="mb-3">
+  <label class="small">Date / Day Numbers</label>
+  <input type="range" min="0.7" max="1.6" step="0.05" value="1"
+    class="form-range"
+    oninput="document.documentElement.style.setProperty('--date-scale', this.value)">
+</div>
+
+<!-- FONT UPLOAD -->
+<div class="row g-2 mb-3">
+  <div class="col-md-4">
+    <label class="form-label small">Header Font</label>
+    <input type="file" id="fontHeader" class="form-control" accept=".ttf,.otf,.woff,.woff2">
   </div>
+  <div class="col-md-4">
+    <label class="form-label small">Weekday Font</label>
+    <input type="file" id="fontWeek" class="form-control" accept=".ttf,.otf,.woff,.woff2">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label small">Date Number Font</label>
+    <input type="file" id="fontDate" class="form-control" accept=".ttf,.otf,.woff,.woff2">
+  </div>
+</div>
 
-  <!-- PRINT AREA -->
-  <div class="print-container"></div>
+<!-- MONTH SELECT -->
+<label class="small">
+  <input type="checkbox" id="check-all"> Select all months
+</label>
+
+<div class="mt-2 small">
+  <label><input type="checkbox" class="month" value="January" checked> Jan</label>
+  <label><input type="checkbox" class="month" value="February"> Feb</label>
+  <label><input type="checkbox" class="month" value="March"> Mar</label>
+  <label><input type="checkbox" class="month" value="April"> Apr</label>
+  <label><input type="checkbox" class="month" value="May"> May</label>
+  <label><input type="checkbox" class="month" value="June"> Jun</label>
+  <label><input type="checkbox" class="month" value="July"> Jul</label>
+  <label><input type="checkbox" class="month" value="August"> Aug</label>
+  <label><input type="checkbox" class="month" value="September"> Sep</label>
+  <label><input type="checkbox" class="month" value="October"> Oct</label>
+  <label><input type="checkbox" class="month" value="November"> Nov</label>
+  <label><input type="checkbox" class="month" value="December"> Dec</label>
+</div>
+
+<!-- ACTION -->
+<div class="mt-3">
+  <button class="btn btn-dark btn-sm" onclick="securePrint()">Print / Save PDF</button>
+</div>
+
+<!-- LIVE PREVIEW -->
+<div class="print-container mt-4"></div>
+
 </div>
 
 <script>
-/* ===== PASSWORD (CHANGE HERE IF NEEDED) ===== */
-const PRINT_PASSWORD = "CheDex09DP!";
+const PASSWORD="CheDex09PC!";
+const YEAR=2026;
 
-/* ===== FIXED YEAR ===== */
-const year = 2026;
-
-const monthNames = [
+const MONTHS=[
  "January","February","March","April","May","June",
  "July","August","September","October","November","December"
 ];
 
-/* ===== PRINT WITH PASSWORD ===== */
-function securePrint() {
-  const input = prompt("Enter password to print:");
-  if (input !== PRINT_PASSWORD) {
-    alert("Incorrect password. Printing is disabled.");
+let headerFont="",weekFont="",dateFont="";
+
+/* FONT LOADER */
+function loadFont(input,setFont){
+  const file=input.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const name=file.name.replace(/\W/g,'');
+    const style=document.createElement("style");
+    style.innerHTML=`@font-face{font-family:'${name}';src:url(${e.target.result});}`;
+    document.head.appendChild(style);
+    setFont(name);
+    updateCalendar();
+  };
+  reader.readAsDataURL(file);
+}
+
+fontHeader.onchange=()=>loadFont(fontHeader,f=>headerFont=f);
+fontWeek.onchange=()=>loadFont(fontWeek,f=>weekFont=f);
+fontDate.onchange=()=>loadFont(fontDate,f=>dateFont=f);
+
+/* PRINT */
+function securePrint(){
+  if(prompt("Enter password to print")!==PASSWORD){
+    alert("Incorrect password");
     return;
   }
   window.print();
 }
 
-/* ===== GENERATE CALENDAR ===== */
-function updateCalendar() {
-  const container = document.querySelector('.print-container');
-  container.innerHTML = '';
+/* CALENDAR */
+function updateCalendar(){
+  const container=document.querySelector(".print-container");
+  container.innerHTML="";
 
-  document.querySelectorAll('.month:checked').forEach(cb => {
-    container.innerHTML += `
+  let selected=[...document.querySelectorAll(".month:checked")];
+  if(selected.length===0){
+    document.querySelector('.month[value="January"]').checked=true;
+    selected=[document.querySelector('.month[value="January"]')];
+  }
+
+  selected.forEach(m=>{
+    container.innerHTML+=`
       <div class="calendar">
-        <h1><span>${cb.value}</span><span>${year}</span></h1>
+        <h1 style="font-family:${headerFont||'Inter'}">
+          <span>${m.value}</span><span>${YEAR}</span>
+        </h1>
         <table>
-          <thead>
+          <thead style="font-family:${weekFont||'Inter'}">
             <tr>
-              <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
-              <th>Thu</th><th>Fri</th><th>Sat</th>
+              <th>Sun</th><th>Mon</th><th>Tue</th>
+              <th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
             </tr>
           </thead>
-          <tbody>${generateDays(cb.value)}</tbody>
+          <tbody style="font-family:${dateFont||'Inter'}">
+            ${generateDays(m.value)}
+          </tbody>
         </table>
-      </div>
-    `;
+      </div>`;
   });
 }
 
-/* ===== DAYS ===== */
-function generateDays(month) {
-  const m = monthNames.indexOf(month);
-  const first = new Date(year, m, 1).getDay();
-  const total = new Date(year, m+1, 0).getDate();
+function generateDays(month){
+  const m=MONTHS.indexOf(month);
+  const first=new Date(YEAR,m,1).getDay();
+  const total=new Date(YEAR,m+1,0).getDate();
+  let day=1,html="";
 
-  let html = '';
-  let day = 1;
-
-  for (let i=0;i<6;i++) {
-    html += '<tr>';
-    for (let j=0;j<7;j++) {
-      if ((i===0 && j<first) || day>total) {
-        html += '<td></td>';
-      } else {
-        html += `<td>${day++}</td>`;
-      }
+  for(let r=0;r<6;r++){
+    html+="<tr>";
+    for(let c=0;c<7;c++){
+      html+=(r===0&&c<first||day>total)?"<td></td>":`<td>${day++}</td>`;
     }
-    html += '</tr>';
+    html+="</tr>";
   }
 
-  html += `
+  html+=`
     <tr>
       <td colspan="7">
         <textarea class="note-box" placeholder="Notes"></textarea>
       </td>
-    </tr>
-  `;
+    </tr>`;
   return html;
 }
 
-/* ===== CHECK ALL ===== */
-document.getElementById('check-all').onchange = e => {
-  document.querySelectorAll('.month').forEach(m => m.checked = e.target.checked);
+/* EVENTS */
+document.getElementById("check-all").onchange=e=>{
+  document.querySelectorAll(".month").forEach(m=>m.checked=e.target.checked);
   updateCalendar();
 };
+document.querySelectorAll(".month").forEach(m=>m.onchange=updateCalendar);
 
-document.querySelectorAll('.month').forEach(m => m.onchange = updateCalendar);
-
+/* INITIAL */
 updateCalendar();
 </script>
 
