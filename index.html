@@ -1,456 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Printable Customized Planner Calendar</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
-  <script type="text/javascript"> 
-var password = 'CheDex09PC!';
-password=prompt('Enter Password','');
-if (password != 'CheDex09PC!') {
-    location.href='';
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Printable Customized Monthly Planner Calendar 2026</title>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+/* ===== BASE ===== */
+body {
+  background:#f5f5f5;
+  font-family: Arial, sans-serif;
 }
-</script>
-    <style>
-        /* A4 and A5 Paper Portrait Container */
-        .print-container {
-            width: 100%;
-            padding: 1cm;
-            box-sizing: border-box;
-            margin: 0 auto;
-            background: #fff;
-            border: none;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start; /* Ensure content starts at the top */
-            overflow: hidden; /* Ensure content does not overflow */
-        }
 
-        /* Print Styles */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .print-container, .print-container * {
-                visibility: visible;
-            }
-            .print-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                box-shadow: none;
-                padding: 0; /* Remove padding for print */
-                overflow: hidden;
-            }
-            @page {
-                margin: 1cm;
-                size: A4 portrait; /* Ensure A4 and portrait orientation */
-            }
-        }
+/* ===== PRINT CONTAINER ===== */
+.print-container {
+  width: 100%;
+}
 
-        /* Calendar Styles */
-        .calendar {
-            text-align: left; /* Align calendar content to the left */
-            font-family: Arial, sans-serif;
-            margin-bottom: 10px; /* Adjusted space between calendars */
-            page-break-after: always; /* Ensure each calendar is on a new page */
-        }
+/* ===== CALENDAR PAGE ===== */
+.calendar {
+  page-break-after: always;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-        .calendar h1 {
-            margin: 0;
-            padding: 10px 0;
-            font-size: 48px; /* Doubled font size */
-            font-weight: bold;
-            display: flex;
-            align-items: center; /* Center vertically */
-            justify-content: space-between; /* Move to opposite sides */
-            padding: 0 10px; /* Add some padding */
-        }
+/* ===== HEADER ===== */
+.calendar h1 {
+  font-size: 42px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 5px;
+  margin: 0;
+}
 
-        .calendar table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-            margin-top: 20px; /* Move grid lines farther down */
-        }
+/* ===== TABLE ===== */
+.calendar table {
+  width: 100%;
+  flex: 1;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
-        .calendar th, .calendar td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left; /* Align text in days to the left */
-            vertical-align: top;
-            font-size: 18px; /* Increased font size */
-        }
-        .calendar thead th {
-            text-align: center; /* Center align weekdays headers */
-        }
-        .calendar th {
-            background-color: transparent;
-        }
+.calendar thead th {
+  text-align: center;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
 
-        .calendar td {
-            height: calc(29.7cm / 6); /* Make cells taller */
-            width: calc(21cm / 7);  /* Make cells wider */
-        }
+.calendar td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  vertical-align: top;
+  font-size: 16px;
+}
 
-        /* Style for grid color */
-        .calendar th, .calendar td {
-            border-color: #ddd;
-        }
+/* ===== NOTES ===== */
+.note-box {
+  width: 100%;
+  height: 100%;
+  border: none;
+  resize: none;
+  font-size: 16px;
+  background: transparent;
+}
 
-        /* Note Box Styles */
-        .note-box {
-            width: 100%;
-            height: 100%;
-            border: none; /* Remove the black border line */
-            box-shadow: none; /* Remove any shadow that might appear as a border */
-            background-color: transparent; /* Ensure the background is transparent */
-            padding: 10px; /* Add some padding for better appearance */
-            font-size: 18px; /* Adjust font size if necessary */
-            resize: none; /* Prevent resizing */
-            overflow: auto; /* Add scrollbars if content overflows */
-            /* Add additional styles for better appearance */
-            font-family: inherit; /* Ensure the font matches the calendar */
-        }
+/* ===== PRINT RULES ===== */
+@media print {
+  body * {
+    visibility: hidden;
+  }
 
-        /* Month Selection Styles */
-        .month-selection {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
+  .print-container,
+  .print-container * {
+    visibility: visible;
+  }
 
-        .month-selection .top-row {
-            grid-column: span 4;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
+  .print-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 
-        .month-selection label {
-            border: none;
-            padding: 10px;
-            text-align: left;
-        }
-
-        /* Add top border before month header */
-        .print-container:before {
-            content: '';
-            display: block;
-            height: 1in;
-            width: 100%;
-        }
-    </style>
+  @page {
+    size: auto;
+    margin: 1cm;
+  }
+}
+</style>
 </head>
-<body>
-    <div class="container mt-4">
-        <!-- Year and Month Selection and Buttons -->
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="month-selection">
-                    <div class="top-row">
-                        <h3>Select Year:</h3>
-                        <select id="year-select" class="form-select">
-                            <!-- JavaScript will populate this -->
-                        </select>
-                    </div>
-                    <div class="top-row">
-                        <h3>Select Months:</h3>
-                        <label><input type="checkbox" id="check-all"> Check All</label>
-                    </div>
-                    <label><input type="checkbox" class="month" value="January"> Jan</label>
-                    <label><input type="checkbox" class="month" value="February"> Feb</label>
-                    <label><input type="checkbox" class="month" value="March"> Mar</label>
-                    <label><input type="checkbox" class="month" value="April"> Apr</label>
-                    <label><input type="checkbox" class="month" value="May"> May</label>
-                    <label><input type="checkbox" class="month" value="June"> Jun</label>
-                    <label><input type="checkbox" class="month" value="July"> Jul</label>
-                    <label><input type="checkbox" class="month" value="August"> Aug</label>
-                    <label><input type="checkbox" class="month" value="September"> Sep</label>
-                    <label><input type="checkbox" class="month" value="October"> Oct</label>
-                    <label><input type="checkbox" class="month" value="November"> Nov</label>
-                    <label><input type="checkbox" class="month" value="December"> Dec</label>
-                </div>
-                <!-- Font Upload Sections -->
-                <div class="mt-3">
-                    <label for="font-header-upload" class="form-label">Upload Font for Header:</label>
-                    <input type="file" id="font-header-upload" accept=".ttf, .otf, .woff, .woff2" class="form-control">
-                </div>
-                <div class="mt-3">
-                    <label for="font-content-upload" class="form-label">Upload Font for Content:</label>
-                    <input type="file" id="font-content-upload" accept=".ttf, .otf, .woff, .woff2" class="form-control">
-                </div>
-            </div>
-            <div class="col-md-12 text-md-end">
-                <button class="btn btn-success" onclick="printPreview()">Print Preview</button>
-            </div>
-        </div>
 
-        <!-- Print Container -->
-        <div class="print-container mt-4">
-            <!-- Calendar Content will be dynamically generated -->
-        </div>
+<body>
+
+<div class="container mt-4">
+
+  <!-- MONTH SELECTION -->
+  <div class="mb-4">
+    <h4 class="fw-bold">2026 Monthly Dated Planner Calendar</h4>
+
+    <label>
+      <input type="checkbox" id="check-all"> Check All Months
+    </label>
+
+    <div class="mt-2">
+      <label><input type="checkbox" class="month" value="January"> Jan</label>
+      <label><input type="checkbox" class="month" value="February"> Feb</label>
+      <label><input type="checkbox" class="month" value="March"> Mar</label>
+      <label><input type="checkbox" class="month" value="April"> Apr</label>
+      <label><input type="checkbox" class="month" value="May"> May</label>
+      <label><input type="checkbox" class="month" value="June"> Jun</label>
+      <label><input type="checkbox" class="month" value="July"> Jul</label>
+      <label><input type="checkbox" class="month" value="August"> Aug</label>
+      <label><input type="checkbox" class="month" value="September"> Sep</label>
+      <label><input type="checkbox" class="month" value="October"> Oct</label>
+      <label><input type="checkbox" class="month" value="November"> Nov</label>
+      <label><input type="checkbox" class="month" value="December"> Dec</label>
     </div>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-    <script>
-        let year = new Date().getFullYear();
-        const currentYear = new Date().getFullYear();
-        const nextYear = currentYear + 1;
-        const monthNames = [
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-        let fontStyleHeader = '';
-        let fontStyleContent = '';
+    <!-- PRINT BUTTON (PASSWORD PROTECTED) -->
+    <button class="btn btn-success mt-3" onclick="securePrint()">Print Preview</button>
+  </div>
 
-        function populateYearSelect() {
-            const yearSelect = document.getElementById('year-select');
-            yearSelect.innerHTML = `
-                <option value="${currentYear}">${currentYear}</option>
-                <option value="${nextYear}">${nextYear}</option>
-            `;
-            yearSelect.addEventListener('change', function() {
-                year = parseInt(this.value, 10);
-                updateCalendar();
-            });
-        }
+  <!-- PRINT AREA -->
+  <div class="print-container"></div>
+</div>
 
-        function updateCalendar() {
-            const selectedMonths = Array.from(document.querySelectorAll('.month:checked')).map(cb => cb.value);
-            const container = document.querySelector('.print-container');
-            container.innerHTML = ''; // Clear previous content
+<script>
+/* ===== PASSWORD (CHANGE HERE IF NEEDED) ===== */
+const PRINT_PASSWORD = "CheDex09DP!";
 
-            selectedMonths.forEach(month => {
-                const calendarHTML = `
-                    <div class="calendar">
-                        <h1><span>${month}</span><span>${year}</span></h1>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Sun</th>
-                                    <th>Mon</th>
-                                    <th>Tue</th>
-                                    <th>Wed</th>
-                                    <th>Thu</th>
-                                    <th>Fri</th>
-                                    <th>Sat</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${generateMonthDays(month)}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                container.innerHTML += calendarHTML;
-            });
+/* ===== FIXED YEAR ===== */
+const year = 2026;
 
-            applyCustomFonts();
-        }
+const monthNames = [
+ "January","February","March","April","May","June",
+ "July","August","September","October","November","December"
+];
 
-        function generateMonthDays(month) {
-            const monthIndex = monthNames.indexOf(month);
-            const firstDayOfMonth = new Date(year, monthIndex, 1).getDay();
-            const totalDaysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-            let daysHTML = '';
-            let day = 1;
+/* ===== PRINT WITH PASSWORD ===== */
+function securePrint() {
+  const input = prompt("Enter password to print:");
+  if (input !== PRINT_PASSWORD) {
+    alert("Incorrect password. Printing is disabled.");
+    return;
+  }
+  window.print();
+}
 
-            for (let i = 0; i < 6; i++) { // up to 6 rows
-                let rowEmpty = true;
-                let rowHTML = '<tr>';
+/* ===== GENERATE CALENDAR ===== */
+function updateCalendar() {
+  const container = document.querySelector('.print-container');
+  container.innerHTML = '';
 
-                for (let j = 0; j < 7; j++) {
-                    if ((i === 0 && j < firstDayOfMonth) || day > totalDaysInMonth) {
-                        rowHTML += '<td></td>';
-                    } else {
-                        rowHTML += `<td>${day}</td>`;
-                        day++;
-                        rowEmpty = false;
-                    }
-                }
+  document.querySelectorAll('.month:checked').forEach(cb => {
+    container.innerHTML += `
+      <div class="calendar">
+        <h1><span>${cb.value}</span><span>${year}</span></h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
+              <th>Thu</th><th>Fri</th><th>Sat</th>
+            </tr>
+          </thead>
+          <tbody>${generateDays(cb.value)}</tbody>
+        </table>
+      </div>
+    `;
+  });
+}
 
-                rowHTML += '</tr>';
-                daysHTML += rowHTML;
+/* ===== DAYS ===== */
+function generateDays(month) {
+  const m = monthNames.indexOf(month);
+  const first = new Date(year, m, 1).getDay();
+  const total = new Date(year, m+1, 0).getDate();
 
-                // Check if it's the last row and if it is empty
-                if (i === 5 && rowEmpty) {
-                    daysHTML = daysHTML.replace(/<tr>(<td><\/td>){7}<\/tr>$/, '<tr><td colspan="7"><textarea class="note-box" placeholder="Notes:"></textarea></td></tr>');
-                }
-            }
+  let html = '';
+  let day = 1;
 
-            return daysHTML;
-        }
+  for (let i=0;i<6;i++) {
+    html += '<tr>';
+    for (let j=0;j<7;j++) {
+      if ((i===0 && j<first) || day>total) {
+        html += '<td></td>';
+      } else {
+        html += `<td>${day++}</td>`;
+      }
+    }
+    html += '</tr>';
+  }
 
-        function handleFontHeaderUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const fontBase64 = e.target.result;
-                    const fontName = file.name.split('.')[0];
-                    fontStyleHeader = `
-                        <style>
-                            @font-face {
-                                font-family: '${fontName}';
-                                src: url(${fontBase64}) format('truetype');
-                            }
-                            .calendar h1 {
-                                font-family: '${fontName}', sans-serif;
-                            }
-                        </style>
-                    `;
-                    document.head.insertAdjacentHTML('beforeend', fontStyleHeader);
-                    updateCalendar();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+  html += `
+    <tr>
+      <td colspan="7">
+        <textarea class="note-box" placeholder="Notes"></textarea>
+      </td>
+    </tr>
+  `;
+  return html;
+}
 
-        function handleFontContentUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const fontBase64 = e.target.result;
-                    const fontName = file.name.split('.')[0];
-                    fontStyleContent = `
-                        <style>
-                            @font-face {
-                                font-family: '${fontName}';
-                                src: url(${fontBase64}) format('truetype');
-                            }
-                            .calendar {
-                                font-family: '${fontName}', Arial, sans-serif;
-                            }
-                            .note-box {
-                                font-family: '${fontName}', Arial, sans-serif;
-                            }
-                        </style>
-                    `;
-                    document.head.insertAdjacentHTML('beforeend', fontStyleContent);
-                    updateCalendar();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+/* ===== CHECK ALL ===== */
+document.getElementById('check-all').onchange = e => {
+  document.querySelectorAll('.month').forEach(m => m.checked = e.target.checked);
+  updateCalendar();
+};
 
-        function applyCustomFonts() {
-            if (fontStyleHeader) {
-                document.querySelector('.print-container').insertAdjacentHTML('beforeend', fontStyleHeader);
-            }
-            if (fontStyleContent) {
-                document.querySelector('.print-container').insertAdjacentHTML('beforeend', fontStyleContent);
-            }
-        }
+document.querySelectorAll('.month').forEach(m => m.onchange = updateCalendar);
 
-        function printPreview() {
-            const printWindow = window.open('', '_blank');
-            const containerHTML = document.querySelector('.print-container').innerHTML;
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>Print Preview</title>
-                    <style>
-                        body {
-                            margin: 0;
-                            -webkit-print-color-adjust: exact;
-                        }
-                        .print-container {
-                            padding: 0;
-                            margin: 0;
-                            box-shadow: none;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                        }
-                        .print-container h1 {
-                            margin: 0;
-                            padding: 10px 0;
-                            font-size: 48px; /* Doubled font size */
-                            font-weight: bold;
-                            display: flex;
-                            align-items: center; /* Center vertically */
-                            justify-content: space-between; /* Move to opposite sides */
-                            padding: 0 10px; /* Add some padding */
-                        }
-                        .print-container table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            table-layout: fixed;
-                            margin-top: 20px; /* Move grid lines farther down */
-                        }
-                        .print-container thead th {
-                            text-align: center; /* Center align weekdays headers */
-                        }
-                        .print-container th, .print-container td {
-                            border: 1px solid #ddd;
-                            padding: 10px;
-                            text-align: left; /* Align text in days to the left */
-                            vertical-align: top;
-                            font-size: 18px; /* Increased font size */
-                        }
-                        .print-container th {
-                            background-color: transparent;
-                        }
-                        .print-container td {
-                            height: calc(29.7cm / 6); /* Make cells taller */
-                            width: calc(21cm / 7);  /* Make cells wider */
-                        }
-                        /* Style for grid color */
-                        .print-container th, .print-container td {
-                            border-color: #ddd;
-                        }
-                        .calendar {
-                            page-break-after: always; /* Ensure each calendar is on a new page */
-                        }
-                        .note-box {
-                            width: 100%;
-                            height: 100%;
-                            border: none; /* Remove the black border line */
-                            box-shadow: none; /* Remove any shadow that might appear as a border */
-                            background-color: transparent; /* Ensure the background is transparent */
-                            padding: 10px; /* Add some padding for better appearance */
-                            font-size: 18px; /* Adjust font size if necessary */
-                            resize: none; /* Prevent resizing */
-                            overflow: auto; /* Add scrollbars if content overflows */
-                            font-family: inherit; /* Ensure the font matches the calendar */
-                        }
-                        ${fontStyleHeader}
-                        ${fontStyleContent}
-                    </style>
-                </head>
-                <body>
-                    <div class="print-container">${containerHTML}</div>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
-        }
+updateCalendar();
+</script>
 
-        document.getElementById('check-all').addEventListener('change', function () {
-            const isChecked = this.checked;
-            document.querySelectorAll('.month').forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
-            updateCalendar();
-        });
-
-        document.querySelectorAll('.month').forEach(checkbox => {
-            checkbox.addEventListener('change', updateCalendar);
-        });
-
-        document.getElementById('font-header-upload').addEventListener('change', handleFontHeaderUpload);
-        document.getElementById('font-content-upload').addEventListener('change', handleFontContentUpload);
-
-        populateYearSelect();  // Populate the year dropdown on page load
-        updateCalendar();     // Generate the initial calendar
-    </script>
 </body>
 </html>
